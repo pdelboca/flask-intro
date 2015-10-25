@@ -24,6 +24,7 @@ def login_required(f):
 def home():
 	g.db = connect_db()
 	cur = g.db.execute('SELECT * FROM posts')
+	# creates a list of dictionaries
 	posts = [dict(title=row[0], description=row[1]) for row in cur.fetchall()]
 	g.db.close()
 	return render_template('index.html', posts=posts)

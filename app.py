@@ -1,11 +1,18 @@
 # Improt Flask app from the flask module
-from flask import Flask, render_template, request, redirect, url_for, session, flash, g
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask.ext.sqlalchemy import SQLAlchemy
 from functools import wraps
-import sqlite3
+#import sqlite3
+
 # Create the application object
 app = Flask(__name__)
 app.secret_key = "my secret key"
-app.database = 'sample.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+
+# Create the SQLAlachemy object
+db = SQLAlchemy(app)
+from models import * # needs to be imported after the DB creation
+
 
 # login required decorator
 def login_required(f):
@@ -22,11 +29,7 @@ def login_required(f):
 @app.route('/')
 @login_required
 def home():
-	g.db = connect_db()
-	cur = g.db.execute('SELECT * FROM posts')
-	# creates a list of dictionaries
-	posts = [dict(title=row[0], description=row[1]) for row in cur.fetchall()]
-	g.db.close()
+	posts = db.session.query(BlogPost).all()
 	return render_template('index.html', posts=posts)
 
 @app.route('/welcome')
@@ -52,8 +55,8 @@ def logout():
 	flash('You have been logged out!')
 	return redirect(url_for('welcome'))
 
-def connect_db():
-	return sqlite3.connect(app.database)
+#def connect_db():
+#	return sqlite3.connect(app.database)
 
 # start the server with the 'run()' method
 if __name__ == '__main__':

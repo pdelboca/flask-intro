@@ -2,13 +2,12 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask.ext.sqlalchemy import SQLAlchemy
 from functools import wraps
+import os # for app.config
 #import sqlite3
 
 # Create the application object
 app = Flask(__name__)
-app.secret_key = "my secret key"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
-
+app.config.from_object(os.environ['APP_SETTINGS'])
 # Create the SQLAlachemy object
 db = SQLAlchemy(app)
 from models import * # needs to be imported after the DB creation
@@ -60,4 +59,4 @@ def logout():
 
 # start the server with the 'run()' method
 if __name__ == '__main__':
-	app.run(debug = True)
+	app.run()

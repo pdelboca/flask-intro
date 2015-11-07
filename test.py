@@ -1,4 +1,4 @@
-from app import app
+from project import app
 import unittest
 
 class FlaskTestCase(unittest.TestCase):
@@ -23,7 +23,7 @@ class FlaskTestCase(unittest.TestCase):
 			 data=dict(username='admin',password='admin'),
 			 follow_redirects=True
 		)
-		self.assertTrue(b'You have been logged in!' in response.data)
+		self.assertTrue(b'You were logged in.' in response.data)
 
 	# Ensure login behaves correclty given the incorrect credentials
 	def test_incorrect_login(self):
@@ -33,7 +33,7 @@ class FlaskTestCase(unittest.TestCase):
 			 data=dict(username='wrong',password='wrong'),
 			 follow_redirects=True
 		)
-		self.assertTrue(b'Invalid credentials. Please try again.' in response.data)
+		self.assertTrue(b'Invalid Credentials. Please try again.' in response.data)
 
 	# Ensure logout behaves correctly
 	def test_logout(self):
@@ -44,7 +44,7 @@ class FlaskTestCase(unittest.TestCase):
 			follow_redirects=True
 		)
 		response = tester.get('/logout', follow_redirects=True)
-		self.assertTrue(b'You have been logged out!' in response.data)
+		self.assertTrue(b'You were logged out.' in response.data)
 
 	# Ensure main page requires login
 	def test_main_page_requires_login(self):

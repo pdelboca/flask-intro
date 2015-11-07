@@ -1,4 +1,5 @@
-from app import db, bcrypt
+from app import db
+from project.users.views import bcrypt
 from sqlalchemy import ForeignKey 
 from sqlalchemy.orm import relationship 
 
@@ -10,9 +11,10 @@ class BlogPost(db.Model):
 	description = db.Column(db.String, nullable=False)
 	author_id = db.Column(db.Integer, ForeignKey('users.id'))
 
-	def __init__(self, title, description):
+	def __init__(self, title, description, author_id):
 		self.title = title
 		self.description = description
+		self.author_id = author_id
 
 	def __repr__(self):
 		return '<{}>'.format(self.title) 

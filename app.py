@@ -1,12 +1,14 @@
 # Improt Flask app from the flask module
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.bcrypt import Bcrypt
 from functools import wraps
 import os # for app.config
 #import sqlite3
 
 # Create the application object
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 app.config.from_object(os.environ['APP_SETTINGS'])
 # Create the SQLAlachemy object
 db = SQLAlchemy(app)

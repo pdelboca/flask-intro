@@ -6,6 +6,12 @@ class BaseConfig(object):
 	SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 	print SQLALCHEMY_DATABASE_URI
 
+class TestConfig(BaseConfig):
+	DEBUG = True
+	Testing = True
+	WTF_CSRF_ENABLED = False
+	SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+
 
 class DevelopmentConfig(BaseConfig):
 	DEBUG = True
